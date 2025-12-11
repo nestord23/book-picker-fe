@@ -1,0 +1,75 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import '../styles/form.css';
+
+const pageTitle = 'Recupera tu Contraseña | Book Picker';
+---
+
+<AuthLayout title={pageTitle}>
+  <div class="auth-header">
+    <h1>Recuperar Contraseña</h1>
+    <p>Te ayudaremos a recuperar el acceso a tu cuenta</p>
+  </div>
+
+  <form class="auth-form" aria-label="Formulario de recuperación de contraseña">
+    <!-- Instrucciones -->
+    <div style="
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    ">
+      Ingresa tu correo electrónico y te enviaremos un enlace para resetear tu contraseña.
+    </div>
+
+    <!-- Campo de Email -->
+    <div class="form-group">
+      <label for="email" class="form-label">Correo Electrónico</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-input"
+        placeholder="tu@correo.com"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <!-- Botón de envío -->
+    <button type="submit" class="btn btn-primary">
+      Enviar Enlace de Recuperación
+    </button>
+  </form>
+
+  <!-- Enlace para volver al login -->
+  <div style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+  ">
+    <a href="/login" style="
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    ">
+      <span>←</span>
+      <span>Volver a iniciar sesión</span>
+    </a>
+  </div>
+</AuthLayout>
+
+<style is:global>
+  @import '../styles/form.css';
+</style>

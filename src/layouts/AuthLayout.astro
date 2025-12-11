@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import '../styles/auth-layout.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Book Picker' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Inicia sesión en Book Picker" />
+    <title>{title}</title>
+    
+    <!-- Preload de fuente para mejor performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  </head>
+  <body>
+    <div class="auth-container">
+      <!-- Sección de formulario -->
+      <div class="auth-content">
+        <div class="auth-card">
+          <slot />
+        </div>
+      </div>
+
+      <!-- Sección decorativa lateral -->
+      <aside class="auth-sidebar">
+        <div class="sidebar-content">
+          <div class="sidebar-logo">📚</div>
+          <h2 class="sidebar-title">Book Picker</h2>
+          <p class="sidebar-description">
+            Descubre, organiza y comparte tus libros favoritos con una comunidad apasionada de lectores.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/auth-layout.css';
+</style>

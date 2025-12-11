@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/content.css';
+
+const pageTitle = 'Términos y Condiciones | Book Picker';
+---
+
+<Layout title={pageTitle}>
+  <main style="padding: var(--spacing-xl); max-width: 900px; margin: 0 auto;">
+    <article>
+      <h1>Términos y Condiciones</h1>
+      
+      <p style="color: var(--color-text-secondary); font-style: italic; margin-bottom: var(--spacing-lg);">
+        Última actualización: 11 de diciembre de 2025
+      </p>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>1. Aceptación de Términos</h2>
+        <p>
+          Al acceder y usar Book Picker, aceptas estos términos y condiciones. Si no estás de acuerdo con alguna parte, 
+          no debes usar nuestro servicio.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>2. Uso del Servicio</h2>
+        <p>
+          Book Picker es una plataforma diseñada para que descubras, organices y compartas información sobre libros. 
+          Aceptas utilizar el servicio únicamente para fines legales y de conformidad con todas las leyes aplicables.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>3. Cuenta de Usuario</h2>
+        <p>
+          Eres responsable de mantener la confidencialidad de tu contraseña y de la seguridad de tu cuenta. 
+          Aceptas notificarnos inmediatamente de cualquier acceso no autorizado.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>4. Limitación de Responsabilidad</h2>
+        <p>
+          Book Picker se proporciona "tal cual" sin garantías de ningún tipo. No somos responsables por pérdidas o daños 
+          derivados del uso de nuestro servicio.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>5. Cambios en los Términos</h2>
+        <p>
+          Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán efectivos 
+          inmediatamente después de ser publicados.
+        </p>
+      </section>
+
+      <div style="
+        display: flex;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--color-border);
+      ">
+        <a href="/login" class="btn btn-primary" style="flex: 1; text-align: center; padding: var(--spacing-md);">
+          Aceptar y Continuar
+        </a>
+        <a href="/registro" style="
+          flex: 1;
+          padding: var(--spacing-md);
+          background-color: var(--color-bg-secondary);
+          color: var(--color-text-primary);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          text-align: center;
+          text-decoration: none;
+          transition: all var(--transition-normal);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        ">
+          Volver a Registro
+        </a>
+      </div>
+    </article>
+  </main>
+</Layout>

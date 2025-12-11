@@ -1,0 +1,166 @@
+/* Estilos responsivos para contenido informativo */
+
+/* Estilos base para artículos y contenido */
+article {
+  width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+article section {
+  margin-bottom: var(--spacing-lg);
+}
+
+article h2 {
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-md);
+}
+
+/* Responsive - Tablet (769px - 1024px) */
+@media (max-width: 1024px) {
+  article {
+    font-size: 0.95rem;
+  }
+
+  article section {
+    margin-bottom: var(--spacing-md);
+  }
+
+  article h2 {
+    font-size: 1.5rem;
+  }
+
+  article p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsive - Mobile Landscape & Small Tablet (481px - 768px) */
+@media (max-width: 768px) {
+  article {
+    font-size: 0.9rem;
+  }
+
+  article section {
+    margin-bottom: var(--spacing-md);
+  }
+
+  article h2 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  article p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Responsive - Mobile Small (320px - 480px) */
+@media (max-width: 480px) {
+  main {
+    padding: var(--spacing-md);
+    padding-top: var(--spacing-lg);
+  }
+
+  article {
+    font-size: 0.85rem;
+  }
+
+  article section {
+    margin-bottom: var(--spacing-md);
+  }
+
+  article section:first-child {
+    margin-top: 0;
+  }
+
+  article h1 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  article h2 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+  }
+
+  article p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Flex container para botones responsive */
+  div[style*="display: flex"] {
+    flex-direction: column;
+  }
+
+  div[style*="display: flex"] a,
+  div[style*="display: flex"] button {
+    width: 100%;
+    min-height: 44px;
+    display: block;
+  }
+}
+
+/* Responsive - Ultra Mobile (< 320px) */
+@media (max-width: 320px) {
+  main {
+    padding: var(--spacing-sm);
+  }
+
+  article h1 {
+    font-size: 1.25rem;
+  }
+
+  article h2 {
+    font-size: 1rem;
+  }
+
+  article p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Flexbox responsive para contenedor de botones */
+.button-container {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .button-container a,
+  .button-container button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .button-container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+  }
+
+  .button-container a,
+  .button-container button {
+    width: 100%;
+    min-height: 44px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+  }
+}

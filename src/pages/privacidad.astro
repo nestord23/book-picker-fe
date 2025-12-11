@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/content.css';
+
+const pageTitle = 'Política de Privacidad | Book Picker';
+---
+
+<Layout title={pageTitle}>
+  <main style="padding: var(--spacing-xl); max-width: 900px; margin: 0 auto;">
+    <article>
+      <h1>Política de Privacidad</h1>
+      
+      <p style="color: var(--color-text-secondary); font-style: italic; margin-bottom: var(--spacing-lg);">
+        Última actualización: 11 de diciembre de 2025
+      </p>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>1. Información que Recopilamos</h2>
+        <p>
+          Recopilamos información que proporcionas directamente, como tu nombre, email y preferencias de lectura. 
+          También recopilamos información sobre cómo utilizas nuestro servicio.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>2. Cómo Utilizamos tu Información</h2>
+        <p>
+          Utilizamos tu información para proporcionar, mantener y mejorar nuestro servicio, así como para 
+          enviarte actualizaciones y comunicaciones relacionadas con tu cuenta.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>3. Protección de Datos</h2>
+        <p>
+          Implementamos medidas de seguridad apropiadas para proteger tu información personal contra 
+          acceso no autorizado, alteración o divulgación.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>4. Cookies</h2>
+        <p>
+          Book Picker utiliza cookies para mejorar la experiencia del usuario. Puedes controlar las cookies 
+          a través de la configuración de tu navegador.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>5. Derechos del Usuario</h2>
+        <p>
+          Tienes derecho a acceder, corregir o eliminar tu información personal. Contáctanos si deseas 
+          ejercer estos derechos.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>6. Cambios en esta Política</h2>
+        <p>
+          Podemos actualizar esta política de privacidad ocasionalmente. Te notificaremos sobre cambios 
+          significativos publicando la versión actualizada.
+        </p>
+      </section>
+
+      <section style="margin-bottom: var(--spacing-xl);">
+        <h2>7. Contacto</h2>
+        <p>
+          Si tienes preguntas sobre esta política, por favor contáctanos en privacy@bookpicker.com
+        </p>
+      </section>
+
+      <div style="
+        display: flex;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--color-border);
+      ">
+        <a href="/login" class="btn btn-primary" style="flex: 1; text-align: center; padding: var(--spacing-md);">
+          Aceptar y Continuar
+        </a>
+        <a href="/registro" style="
+          flex: 1;
+          padding: var(--spacing-md);
+          background-color: var(--color-bg-secondary);
+          color: var(--color-text-primary);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          text-align: center;
+          text-decoration: none;
+          transition: all var(--transition-normal);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        ">
+          Volver a Registro
+        </a>
+      </div>
+    </article>
+  </main>
+</Layout>

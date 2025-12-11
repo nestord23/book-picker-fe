@@ -1,0 +1,164 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import '../styles/form.css';
+
+const pageTitle = 'Crea tu Cuenta | Book Picker';
+---
+
+<AuthLayout title={pageTitle}>
+  <div class="auth-header">
+    <h1>Únete a Nosotros</h1>
+    <p>Crea tu cuenta para empezar tu aventura de lectura</p>
+  </div>
+
+  <form class="auth-form" aria-label="Formulario de registro">
+    <!-- Campo de Nombre Completo -->
+    <div class="form-group">
+      <label for="fullname" class="form-label">Nombre Completo</label>
+      <input
+        type="text"
+        id="fullname"
+        name="fullname"
+        class="form-input"
+        placeholder="Tu nombre completo"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <!-- Campo de Email -->
+    <div class="form-group">
+      <label for="email" class="form-label">Correo Electrónico</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-input"
+        placeholder="tu@correo.com"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <!-- Campo de Contraseña -->
+    <div class="form-group">
+      <label for="password" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-input"
+        placeholder="••••••••"
+        required
+        aria-required="true"
+      />
+      <small style="color: var(--color-text-secondary); font-size: 0.85rem; margin-top: 0.5rem; display: block;">
+        Mínimo 8 caracteres con letras, números y símbolos
+      </small>
+    </div>
+
+    <!-- Campo de Confirmar Contraseña -->
+    <div class="form-group">
+      <label for="confirm-password" class="form-label">Confirmar Contraseña</label>
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirm-password"
+        class="form-input"
+        placeholder="••••••••"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <!-- Checkbox de términos y condiciones -->
+    <div class="checkbox-group" style="margin-bottom: var(--spacing-lg);">
+      <input
+        type="checkbox"
+        id="terms"
+        name="terms"
+        class="checkbox-input"
+        required
+        aria-required="true"
+      />
+      <label for="terms" class="checkbox-label">
+        Acepto los
+        <a href="/terminos" style="font-weight: 700;">términos y condiciones</a>
+        y la
+        <a href="/privacidad" style="font-weight: 700;">política de privacidad</a>
+      </label>
+    </div>
+
+    <!-- Checkbox de suscripción a newsletter -->
+    <div class="checkbox-group">
+      <input
+        type="checkbox"
+        id="newsletter"
+        name="newsletter"
+        class="checkbox-input"
+      />
+      <label for="newsletter" class="checkbox-label">
+        Quiero recibir recomendaciones personalizadas y noticias
+      </label>
+    </div>
+
+    <!-- Botón de envío -->
+    <button type="submit" class="btn btn-primary" style="margin-top: var(--spacing-lg);">
+      Crear Cuenta
+    </button>
+  </form>
+
+  <!-- Divisor -->
+  <div class="divider">o regístrate con</div>
+
+  <!-- Botones de OAuth (solo maqueta visual) -->
+  <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+    <button
+      type="button"
+      class="btn"
+      style="
+        flex: 1;
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+        border: 1px solid var(--color-border);
+      "
+      aria-label="Registrarse con Google"
+    >
+      Google
+    </button>
+    <button
+      type="button"
+      class="btn"
+      style="
+        flex: 1;
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+        border: 1px solid var(--color-border);
+      "
+      aria-label="Registrarse con GitHub"
+    >
+      GitHub
+    </button>
+  </div>
+
+  <!-- Enlace para iniciar sesión -->
+  <p style="text-align: center; margin: 0;">
+    <span style="color: var(--color-text-secondary); font-weight: 300;">
+      ¿Ya tienes cuenta?
+    </span>
+    <a href="/login" style="font-weight: 700;">
+      Inicia sesión aquí
+    </a>
+  </p>
+</AuthLayout>
+
+<style is:global>
+  @import '../styles/form.css';
+</style>
+
+<style>
+  small {
+    display: block;
+    margin-top: 0.5rem;
+  }
+</style>
