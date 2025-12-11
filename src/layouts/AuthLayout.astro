@@ -2,35 +2,88 @@
 import '../styles/global.css';
 import '../styles/auth-layout.css';
 
-interface Props {
+export interface Props {
   title?: string;
+  description?: string;
+  noindex?: boolean;
 }
 
-const { title = 'Book Picker' } = Astro.props;
+const { 
+  title = 'Book Picker - Tu Biblioteca Personal de Libros',
+  description = 'Descubre, organiza y gestiona tu biblioteca personal de libros con Book Picker. Encuentra tu próxima lectura favorita.',
+  noindex = false
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://bookpicker.com');
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Inicia sesión en Book Picker" />
-    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     
-    <!-- Preload de fuente para mejor performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Robots -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Book Picker" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#22c55e" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/icono.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preconnect para fuentes (si usas Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- DNS Prefetch para recursos externos -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Book Picker",
+        "description": "Tu biblioteca personal de libros",
+        "url": "{canonicalURL}",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "{canonicalURL}/buscar?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="auth-container">
-      <!-- Sección de formulario -->
-      <div class="auth-content">
+      <main class="auth-main" role="main">
         <div class="auth-card">
           <slot />
         </div>
-      </div>
-
-      <!-- Sección decorativa lateral -->
+      </main>
     </div>
   </body>
 </html>

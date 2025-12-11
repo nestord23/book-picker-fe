@@ -2,163 +2,476 @@
 import AuthLayout from '../layouts/AuthLayout.astro';
 import '../styles/form.css';
 
-const pageTitle = 'Crea tu Cuenta | Book Picker';
+const pageTitle = 'Crear Cuenta | Book Picker';
 ---
 
 <AuthLayout title={pageTitle}>
-  <div class="auth-header">
-    <h1>Únete a Nosotros</h1>
-    <p>Crea tu cuenta para empezar tu aventura de lectura</p>
+  <div class="signup-container">
+    <!-- Header Minimalista -->
+    <div class="signup-header">
+      <div class="logo-minimal">
+        <img src="/Logo.svg"  class="logo-image" />
+      </div>
+      <h1>Crear Cuenta</h1>
+    </div>
+
+    <!-- Formulario Compacto -->
+    <form class="signup-form" aria-label="Formulario de registro">
+      <!-- Grid de 2 columnas en desktop -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fullname">Nombre</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="Tu nombre"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Mín. 8 caracteres"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password">Confirmar</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="Repite tu contraseña"
+            required
+            aria-required="true"
+          />
+        </div>
+      </div>
+
+      <!-- Términos compactos -->
+      <div class="terms-compact">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">
+          Acepto los <a href="/terminos">términos</a> y <a href="/privacidad">privacidad</a>
+        </label>
+      </div>
+
+      <!-- Botón principal -->
+      <button type="submit" class="btn-submit">Crear Cuenta</button>
+
+      <!-- OAuth minimalista -->
+      <div class="oauth-section">
+        <span class="oauth-text">o continúa con</span>
+        <div class="oauth-buttons">
+          <button type="button" class="btn-oauth" aria-label="Google">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707 0-.593.102-1.17.282-1.709V4.958H.957C.347 6.173 0 7.548 0 9c0 1.452.348 2.827.957 4.042l3.007-2.335z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+          </button>
+          <button type="button" class="btn-oauth" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <div class="signup-footer">
+      <span>¿Ya tienes cuenta?</span>
+      <a href="/login">Inicia sesión</a>
+    </div>
   </div>
-
-  <form class="auth-form" aria-label="Formulario de registro">
-    <!-- Campo de Nombre Completo -->
-    <div class="form-group">
-      <label for="fullname" class="form-label">Nombre Completo</label>
-      <input
-        type="text"
-        id="fullname"
-        name="fullname"
-        class="form-input"
-        placeholder="Tu nombre completo"
-        required
-        aria-required="true"
-      />
-    </div>
-
-    <!-- Campo de Email -->
-    <div class="form-group">
-      <label for="email" class="form-label">Correo Electrónico</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="form-input"
-        placeholder="tu@correo.com"
-        required
-        aria-required="true"
-      />
-    </div>
-
-    <!-- Campo de Contraseña -->
-    <div class="form-group">
-      <label for="password" class="form-label">Contraseña</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="form-input"
-        placeholder="••••••••"
-        required
-        aria-required="true"
-      />
-      <small style="color: var(--color-text-secondary); font-size: 0.85rem; margin-top: 0.5rem; display: block;">
-        Mínimo 8 caracteres con letras, números y símbolos
-      </small>
-    </div>
-
-    <!-- Campo de Confirmar Contraseña -->
-    <div class="form-group">
-      <label for="confirm-password" class="form-label">Confirmar Contraseña</label>
-      <input
-        type="password"
-        id="confirm-password"
-        name="confirm-password"
-        class="form-input"
-        placeholder="••••••••"
-        required
-        aria-required="true"
-      />
-    </div>
-
-    <!-- Checkbox de términos y condiciones -->
-    <div class="checkbox-group" style="margin-bottom: var(--spacing-lg);">
-      <input
-        type="checkbox"
-        id="terms"
-        name="terms"
-        class="checkbox-input"
-        required
-        aria-required="true"
-      />
-      <label for="terms" class="checkbox-label">
-        Acepto los
-        <a href="/terminos" style="font-weight: 700;">términos y condiciones</a>
-        y la
-        <a href="/privacidad" style="font-weight: 700;">política de privacidad</a>
-      </label>
-    </div>
-
-    <!-- Checkbox de suscripción a newsletter -->
-    <div class="checkbox-group">
-      <input
-        type="checkbox"
-        id="newsletter"
-        name="newsletter"
-        class="checkbox-input"
-      />
-      <label for="newsletter" class="checkbox-label">
-        Quiero recibir recomendaciones personalizadas y noticias
-      </label>
-    </div>
-
-    <!-- Botón de envío -->
-    <button type="submit" class="btn btn-primary" style="margin-top: var(--spacing-lg);">
-      Crear Cuenta
-    </button>
-  </form>
-
-  <!-- Divisor -->
-  <div class="divider">o regístrate con</div>
-
-  <!-- Botones de OAuth (solo maqueta visual) -->
-  <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-    <button
-      type="button"
-      class="btn"
-      style="
-        flex: 1;
-        background-color: var(--color-bg-secondary);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border);
-      "
-      aria-label="Registrarse con Google"
-    >
-      Google
-    </button>
-    <button
-      type="button"
-      class="btn"
-      style="
-        flex: 1;
-        background-color: var(--color-bg-secondary);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border);
-      "
-      aria-label="Registrarse con GitHub"
-    >
-      GitHub
-    </button>
-  </div>
-
-  <!-- Enlace para iniciar sesión -->
-  <p style="text-align: center; margin: 0;">
-    <span style="color: var(--color-text-secondary); font-weight: 300;">
-      ¿Ya tienes cuenta?
-    </span>
-    <a href="/login" style="font-weight: 700;">
-      Inicia sesión aquí
-    </a>
-  </p>
 </AuthLayout>
 
-<style is:global>
-  @import '../styles/form.css';
-</style>
-
 <style>
-  small {
-    display: block;
-    margin-top: 0.5rem;
+  .signup-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
   }
-</style>
+
+  /* Header Minimalista */
+  .signup-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-minimal {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+  }
+
+  .logo-image {
+    width: 150%;
+    height: 150%;
+    object-fit: contain;
+  }
+
+  .signup-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  /* Formulario */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Grid de 2 columnas */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .form-group input {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .form-group input:focus {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.08);
+  }
+
+  .form-group input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    font-size: 0.9rem;
+  }
+
+  /* Términos compactos */
+  .terms-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+  }
+
+  .terms-compact input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 4px;
+    background-color: var(--color-bg-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .terms-compact input[type="checkbox"]:checked {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .terms-compact input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .terms-compact label {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    line-height: 1.4;
+  }
+
+  .terms-compact a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .terms-compact a:hover {
+    opacity: 0.8;
+  }
+
+  /* Botón principal */
+  .btn-submit {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--color-accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.25rem;
+  }
+
+  .btn-submit:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  /* OAuth minimalista */
+  .oauth-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding-top: 0.5rem;
+  }
+
+  .oauth-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    position: relative;
+  }
+
+  .oauth-text::before,
+  .oauth-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 60px);
+    height: 1px;
+    background-color: var(--color-border);
+  }
+
+  .oauth-text::before {
+    left: 0;
+  }
+
+  .oauth-text::after {
+    right: 0;
+  }
+
+  .oauth-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .btn-oauth {
+    width: 44px;
+    height: 44px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .btn-oauth:hover {
+    border-color: var(--color-accent);
+    background-color: rgba(34, 197, 94, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .btn-oauth svg {
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  .signup-footer {
+    text-align: center;
+    padding-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .signup-footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .signup-footer a:hover {
+    opacity: 0.8;
+  }
+
+  /* Responsive - Tablet */
+  @media (max-width: 768px) {
+    .signup-container {
+      gap: 1.5rem;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+    }
+
+    .signup-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .logo-minimal {
+      font-size: 2.25rem;
+    }
+  }
+
+  /* Responsive - Mobile */
+  @media (max-width: 480px) {
+    .signup-container {
+      gap: 1.25rem;
+      max-width: 100%;
+    }
+
+    .signup-header {
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .logo-minimal {
+      font-size: 2rem;
+    }
+
+    .signup-header h1 {
+      font-size: 1.375rem;
+    }
+
+    .signup-form {
+      gap: 1.25rem;
+    }
+
+    .form-grid {
+      gap: 0.75rem;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+    }
+
+    .form-group input {
+      padding: 0.7rem 0.875rem;
+      font-size: 16px;
+    }
+
+    .form-group input::placeholder {
+      font-size: 0.85rem;
+    }
+
+    .terms-compact {
+      padding: 0.125rem 0;
+    }
+
+    .terms-compact label {
+      font-size: 0.75rem;
+    }
+
+    .btn-submit {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .oauth-section {
+      gap: 0.75rem;
+      padding-top: 0.25rem;
+    }
+
+    .oauth-text {
+      font-size: 0.75rem;
+    }
+
+    .oauth-text::before,
+    .oauth-text::after {
+      width: calc(50% - 55px);
+    }
+
+    .oauth-buttons {
+      gap: 0.625rem;
+    }
+
+    .btn-oauth {
+      width: 40px;
+      height: 40px;
+    }
+
+    .btn-oauth svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .signup-footer {
+      font-size: 0.8rem;
+      padding-top: 0.25rem;
+    }
+  }
+
+  /* Prevenir zoom en iOS */
+  @supports (-webkit-touch-callout: none) {
+    .form-group input {
+      font-size: 16px !important;
+    }
+  }
+</style>  

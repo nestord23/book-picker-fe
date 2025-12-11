@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="140" viewBox="0 0 120 140" role="img" aria-labelledby="title desc">
+  <title id="title">Book-Picker icon</title>
+  <desc id="desc">Minimal icon of a geometric book with a green checkmark, designed for Book-Picker.</desc>
+
+  <g transform="translate(16,14)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Book cover -->
+    <rect x="0" y="0" width="88" height="112" rx="8" ry="8" fill="none" stroke="#E5E5E5" stroke-width="3"/>
+    <!-- Inner spine -->
+    <path d="M18 8 L18 104" stroke="#E5E5E5" stroke-width="2"/>
+    <!-- Page curve -->
+    <path d="M8 28 C28 22, 60 22, 80 28" fill="none" stroke="#E5E5E5" stroke-width="1.4" opacity="0.9"/>
+    <!-- Checkmark -->
+    <path d="M22 70 L38 86 L68 46" fill="none" stroke="#00FF88" stroke-width="6"/>
+    <!-- Marker dot -->
+    <circle cx="74" cy="12" r="4" fill="#00FF88" />
+  </g>
+</svg>
