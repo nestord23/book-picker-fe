@@ -1,9 +1,10 @@
 /* Layout de autenticación */
 .auth-container {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   background-color: var(--color-bg-primary);
+  overflow-x: hidden;
 }
 
 /* Sección de contenido */
@@ -14,6 +15,8 @@
   justify-content: center;
   align-items: center;
   padding: var(--spacing-xl);
+  padding-top: max(var(--spacing-xl), env(safe-area-inset-top));
+  padding-bottom: max(var(--spacing-xl), env(safe-area-inset-bottom));
   background: radial-gradient(
       circle at 20% 50%,
       rgba(34, 197, 94, 0.1) 0%,
@@ -85,10 +88,10 @@
 .auth-sidebar::before {
   content: "";
   position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 500px;
-  height: 500px;
+  top: -40%;
+  right: -40%;
+  width: 350px;
+  height: 350px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -100,10 +103,10 @@
 .auth-sidebar::after {
   content: "";
   position: absolute;
-  bottom: -30%;
-  left: -30%;
-  width: 400px;
-  height: 400px;
+  bottom: -25%;
+  left: -25%;
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -111,31 +114,24 @@
     transparent 70%
   );
 }
-
-.sidebar-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-}
-
 .sidebar-logo {
-  font-size: 3rem;
-  margin-bottom: var(--spacing-lg);
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .sidebar-title {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   color: var(--color-accent);
 }
 
 .sidebar-description {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--color-text-secondary);
   font-weight: 300;
-  max-width: 300px;
-  line-height: 1.8;
+  max-width: 280px;
+  line-height: 1.6;
 }
 
 /* Responsive - Tablet Large (1025px - 1440px) */
@@ -145,15 +141,15 @@
   }
 
   .sidebar-logo {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .sidebar-title {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
 
   .sidebar-description {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -161,6 +157,8 @@
 @media (max-width: 1024px) {
   .auth-container {
     flex-direction: column;
+    min-height: auto;
+    min-height: 100dvh;
   }
 
   .auth-sidebar {
@@ -170,7 +168,9 @@
   .auth-content {
     flex: 1;
     padding: var(--spacing-lg);
-    min-height: 100vh;
+    padding-top: max(var(--spacing-lg), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
+    min-height: auto;
     justify-content: center;
   }
 
@@ -193,6 +193,8 @@
 @media (max-width: 768px) {
   .auth-container {
     flex-direction: column;
+    min-height: auto;
+    min-height: 100dvh;
   }
 
   .auth-sidebar {
@@ -200,16 +202,18 @@
   }
 
   .auth-content {
-    padding: var(--spacing-md) var(--spacing-md);
-    padding-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    padding-top: max(var(--spacing-md), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
     min-height: auto;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .auth-card {
     max-width: 100%;
     padding: var(--spacing-md);
-    margin-top: var(--spacing-lg);
+    margin-top: 0;
+    width: 100%;
   }
 
   .auth-header {
@@ -236,6 +240,7 @@
   .auth-container {
     flex-direction: column;
     min-height: auto;
+    min-height: 100dvh;
   }
 
   .auth-sidebar {
@@ -244,7 +249,8 @@
 
   .auth-content {
     padding: var(--spacing-md);
-    padding-top: var(--spacing-md);
+    padding-top: max(var(--spacing-md), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
     min-height: auto;
     background: linear-gradient(
       to bottom,
@@ -256,7 +262,8 @@
   .auth-card {
     max-width: 100%;
     padding: 0;
-    margin-top: var(--spacing-md);
+    margin-top: 0;
+    width: 100%;
   }
 
   .auth-header {
@@ -282,6 +289,8 @@
 @media (max-width: 320px) {
   .auth-content {
     padding: var(--spacing-sm);
+    padding-top: max(var(--spacing-sm), env(safe-area-inset-top));
+    padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
   }
 
   .auth-header h1 {
