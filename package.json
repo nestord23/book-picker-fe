@@ -9,6 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.4"
+    "astro": "^5.16.4",
+    "axios": "^1.13.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

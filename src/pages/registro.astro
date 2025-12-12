@@ -10,13 +10,13 @@ const pageTitle = 'Crear Cuenta | Book Picker';
     <!-- Header Minimalista -->
     <div class="signup-header">
       <div class="logo-minimal">
-        <img src="/Logo.svg"  class="logo-image" />
+        <img src="/Logo.svg" class="logo-image" />
       </div>
       <h1>Crear Cuenta</h1>
     </div>
 
     <!-- Formulario Compacto -->
-    <form class="signup-form" aria-label="Formulario de registro">
+    <form id="signupForm" class="signup-form" aria-label="Formulario de registro">
       <!-- Grid de 2 columnas en desktop -->
       <div class="form-grid">
         <div class="form-group">
@@ -29,6 +29,7 @@ const pageTitle = 'Crear Cuenta | Book Picker';
             required
             aria-required="true"
           />
+          <span class="error-message" id="fullname-error"></span>
         </div>
 
         <div class="form-group">
@@ -41,6 +42,7 @@ const pageTitle = 'Crear Cuenta | Book Picker';
             required
             aria-required="true"
           />
+          <span class="error-message" id="email-error"></span>
         </div>
 
         <div class="form-group">
@@ -52,7 +54,9 @@ const pageTitle = 'Crear Cuenta | Book Picker';
             placeholder="Mín. 8 caracteres"
             required
             aria-required="true"
+            minlength="8"
           />
+          <span class="error-message" id="password-error"></span>
         </div>
 
         <div class="form-group">
@@ -65,19 +69,30 @@ const pageTitle = 'Crear Cuenta | Book Picker';
             required
             aria-required="true"
           />
+          <span class="error-message" id="confirm-password-error"></span>
         </div>
       </div>
 
       <!-- Términos compactos -->
       <div class="terms-compact">
-        <input type="checkbox" id="terms" required />
+        <input type="checkbox" id="terms" name="terms" required />
         <label for="terms">
           Acepto los <a href="/terminos">términos</a> y <a href="/privacidad">privacidad</a>
         </label>
       </div>
+      <span class="error-message" id="terms-error"></span>
+
+      <!-- Mensaje de error/éxito -->
+      <div id="formMessage" class="form-message"></div>
 
       <!-- Botón principal -->
-      <button type="submit" class="btn-submit">Crear Cuenta</button>
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span class="btn-text">Crear Cuenta</span>
+        <span class="btn-loading" style="display: none;">
+          <span class="spinner"></span>
+          Creando cuenta...
+        </span>
+      </button>
 
       <!-- OAuth minimalista -->
       <div class="oauth-section">
@@ -100,6 +115,146 @@ const pageTitle = 'Crear Cuenta | Book Picker';
     </div>
   </div>
 </AuthLayout>
+
+<script>
+  import { register, isAuthenticated } from '../lib/auth';
+
+  // Si ya está autenticado, redirigir al dashboard
+  if (isAuthenticated()) {
+    window.location.href = '/dashboard';
+  }
+
+  const form = document.getElementById('signupForm') as HTMLFormElement;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+  const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
+  const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
+  const formMessage = document.getElementById('formMessage') as HTMLDivElement;
+
+  // Limpiar todos los errores
+  function clearErrors() {
+    document.querySelectorAll('.error-message').forEach(el => {
+      el.textContent = '';
+    });
+    formMessage.textContent = '';
+    formMessage.className = 'form-message';
+  }
+
+  // Mostrar error en campo específico
+  function showFieldError(field: string, message: string) {
+    const errorEl = document.getElementById(`${field}-error`);
+    if (errorEl) {
+      errorEl.textContent = message;
+    }
+  }
+
+  // Validar formulario
+  function validateForm(
+    fullname: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+    termsAccepted: boolean
+  ): boolean {
+    let isValid = true;
+
+    // Validar nombre
+    if (!fullname || fullname.trim().length < 2) {
+      showFieldError('fullname', 'El nombre debe tener al menos 2 caracteres');
+      isValid = false;
+    }
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      showFieldError('email', 'Por favor ingresa un email válido');
+      isValid = false;
+    }
+
+    // Validar contraseña
+    if (!password || password.length < 8) {
+      showFieldError('password', 'La contraseña debe tener al menos 8 caracteres');
+      isValid = false;
+    }
+
+    // Validar confirmación
+    if (password !== confirmPassword) {
+      showFieldError('confirm-password', 'Las contraseñas no coinciden');
+      isValid = false;
+    }
+
+    // Validar términos
+    if (!termsAccepted) {
+      showFieldError('terms', 'Debes aceptar los términos y condiciones');
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  // Manejar envío del formulario
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const formData = new FormData(form);
+    const fullname = (formData.get('fullname') as string).trim();
+    const email = (formData.get('email') as string).trim();
+    const password = formData.get('password') as string;
+    const confirmPassword = formData.get('confirm-password') as string;
+    const termsAccepted = formData.get('terms') === 'on';
+
+    // Validar
+    if (!validateForm(fullname, email, password, confirmPassword, termsAccepted)) {
+      return;
+    }
+
+    // Deshabilitar botón y mostrar loading
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'flex';
+
+    try {
+      // Registrar usuario
+      const result = await register({
+        name: fullname,
+        email: email,
+        password: password,
+      });
+
+      // Mostrar mensaje de éxito
+      formMessage.className = 'form-message success';
+      formMessage.textContent = '✓ Cuenta creada exitosamente. Redirigiendo...';
+
+      // Limpiar formulario
+      form.reset();
+
+      // Redirigir al dashboard
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1500);
+    } catch (error: any) {
+      // Mostrar mensaje de error
+      formMessage.className = 'form-message error';
+      formMessage.textContent = error.message || 'Error al crear la cuenta';
+
+      // Re-habilitar botón
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoading.style.display = 'none';
+    }
+  });
+
+  // Limpiar errores al escribir
+  form.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => {
+      const name = (input as HTMLInputElement).name || (input as HTMLInputElement).id;
+      const errorEl = document.getElementById(`${name}-error`);
+      if (errorEl) {
+        errorEl.textContent = '';
+      }
+    });
+  });
+</script>
 
 <style>
   .signup-container {
@@ -158,6 +313,7 @@ const pageTitle = 'Crear Cuenta | Book Picker';
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
+    position: relative;
   }
 
   .form-group label {
@@ -190,6 +346,49 @@ const pageTitle = 'Crear Cuenta | Book Picker';
     color: var(--color-text-secondary);
     opacity: 0.6;
     font-size: 0.9rem;
+  }
+
+  /* Mensajes de error */
+  .error-message {
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+    display: block;
+  }
+
+  /* Mensaje general del formulario */
+  .form-message {
+    padding: 0.875rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: -0.5rem 0;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-message.success {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+
+  .form-message.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid #ef4444;
   }
 
   /* Términos compactos */
@@ -261,16 +460,42 @@ const pageTitle = 'Crear Cuenta | Book Picker';
     cursor: pointer;
     transition: all 0.2s ease;
     margin-top: 0.25rem;
+    position: relative;
   }
 
-  .btn-submit:hover {
+  .btn-submit:hover:not(:disabled) {
     background-color: var(--color-accent-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
   }
 
-  .btn-submit:active {
+  .btn-submit:active:not(:disabled) {
     transform: translateY(0);
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 
   /* OAuth minimalista */
@@ -474,4 +699,4 @@ const pageTitle = 'Crear Cuenta | Book Picker';
       font-size: 16px !important;
     }
   }
-</style>  
+</style>
