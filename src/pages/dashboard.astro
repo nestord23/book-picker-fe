@@ -1,0 +1,312 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Dashboard - Book Picker">
+  <div class="dashboard-wrapper">
+    <nav class="navbar">
+        <div class="nav-brand">📚 Book Picker</div>
+        <button id="logoutBtn" class="btn-logout">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Cerrar Sesión</span>
+        </button>
+    </nav>
+    
+    <main class="dashboard-container">
+        <div class="welcome-header">
+            <h1>Panel de Control</h1>
+            <p>Gestiona tu cuenta y revisa tu actividad reciente.</p>
+        </div>
+
+        <section class="profile-section">
+            <div id="loading" class="loading-state">
+                <div class="spinner"></div>
+                <p>Cargando perfil...</p>
+            </div>
+
+            <div id="profileData" class="profile-card" style="display: none;">
+                <div class="profile-header">
+                    <div class="avatar">
+                        <span id="userInitials">U</span>
+                    </div>
+                    <div class="profile-title">
+                        <h2 id="userName">Usuario</h2>
+                        <span id="userRole" class="badge">Usuario</span>
+                    </div>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span class="label">Email</span>
+                        <span id="userEmail" class="value">email@example.com</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">ID de Usuario</span>
+                        <span id="userId" class="value text-sm">...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Miembro desde</span>
+                        <span id="userDate" class="value">...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  import { getProfile, logout, isAuthenticated } from '../lib/auth';
+
+  // Verificar autenticación
+  if (!isAuthenticated()) {
+    window.location.href = '/login';
+  }
+
+  async function loadProfile() {
+    try {
+      const result = await getProfile();
+      const user = result.data;
+      
+      const loadingEl = document.getElementById('loading');
+      const profileEl = document.getElementById('profileData');
+      
+      if (loadingEl) loadingEl.style.display = 'none';
+      if (profileEl) {
+          profileEl.style.display = 'block';
+          
+          // Actualizar datos
+          const nameEl = document.getElementById('userName');
+          const emailEl = document.getElementById('userEmail');
+          const roleEl = document.getElementById('userRole');
+          const dateEl = document.getElementById('userDate');
+          const idEl = document.getElementById('userId');
+          const initialsEl = document.getElementById('userInitials');
+          
+          if (nameEl) nameEl.textContent = user.name || 'Sin nombre';
+          if (emailEl) emailEl.textContent = user.email;
+          if (roleEl) roleEl.textContent = user.role;
+          if (dateEl) dateEl.textContent = new Date(user.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+          if (idEl) idEl.textContent = user.id;
+          
+          if (initialsEl && user.name) {
+              const initials = user.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase();
+              initialsEl.textContent = initials;
+          }
+      }
+
+    } catch (error) {
+      console.error(error);
+      const loadingEl = document.getElementById('loading');
+      if (loadingEl) {
+        loadingEl.innerHTML = '<p class="error">Error al cargar el perfil. Por favor recarga la página.</p>';
+      }
+    }
+  }
+
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        logout();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadProfile);
+</script>
+
+<style>
+  .dashboard-wrapper {
+    min-height: 100vh;
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+
+  .navbar {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .nav-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-logout:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .welcome-header {
+    margin-bottom: 3rem;
+  }
+
+  .welcome-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #f8fafc, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .welcome-header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+  }
+
+  .profile-section {
+    max-width: 600px;
+  }
+
+  .profile-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .profile-header {
+    padding: 2rem;
+    background: linear-gradient(to bottom right, #334155, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 1px solid #334155;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .profile-title h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #f1f5f9;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(14, 165, 233, 0.1);
+    color: #38bdf8;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .profile-details {
+    padding: 2rem;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-bottom: 1px solid #334155;
+  }
+
+  .detail-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .detail-item:first-child {
+    padding-top: 0;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+  }
+
+  .value {
+    font-size: 1rem;
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+    font-family: monospace;
+    opacity: 0.8;
+  }
+
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    color: #94a3b8;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(148, 163, 184, 0.1);
+    border-radius: 50%;
+    border-top-color: #6366f1;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .error {
+    color: #ef4444;
+  }
+</style>

@@ -1,11 +1,9 @@
-// src/lib/auth.ts
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
 interface RegisterPayload {
   name: string;
   email: string;
   password: string;
-  role?: string;
 }
 
 interface LoginPayload {
@@ -13,140 +11,126 @@ interface LoginPayload {
   password: string;
 }
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  createdAt: string;
-}
-
 interface AuthResponse {
   success: boolean;
   message: string;
   data: {
-    user: User;
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+      createdAt: string;
+    };
     token: string;
   };
-}
-
-interface ProfileResponse {
-  success: boolean;
-  data: User;
-}
-
-interface ErrorResponse {
-  success: false;
-  message: string;
-  errors?: Array<{
-    field: string;
-    message: string;
-  }>;
 }
 
 /**
  * Registra un nuevo usuario
  */
-export async function register(
-  payload: RegisterPayload
-): Promise<AuthResponse> {
-  const response = await fetch(`${API_URL}/api/users/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+export async function register(payload: RegisterPayload): Promise<AuthResponse> {
+  try {
+    const response = await fetch(`${API_URL}/api/users/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  if (!response.ok) {
-    const error: ErrorResponse = await response.json();
-    throw new Error(error.message || "Error en el registro");
-  }
+    const data = await response.json();
 
-  const data: AuthResponse = await response.json();
-
-  // Guardar token en localStorage
-  if (data.data.token) {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("authToken", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+    if (!response.ok) {
+      throw new Error(data.message || 'Error en el registro');
     }
-  }
 
-  return data;
+    // Guardar token en localStorage
+    if (data.data?.token) {
+      localStorage.setItem('authToken', data.data.token);
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error('Register Error:', error);
+    throw new Error(error.message || 'Error de conexión con el servidor');
+  }
 }
 
 /**
  * Inicia sesión con un usuario existente
  */
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  const response = await fetch(`${API_URL}/api/users/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const response = await fetch(`${API_URL}/api/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  if (!response.ok) {
-    const error: ErrorResponse = await response.json();
-    throw new Error(error.message || "Error en el login");
-  }
+    const data = await response.json();
 
-  const data: AuthResponse = await response.json();
-
-  // Guardar token en localStorage
-  if (data.data.token) {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("authToken", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+    if (!response.ok) {
+      throw new Error(data.message || 'Error en el login');
     }
-  }
 
-  return data;
+    // Guardar token en localStorage
+    if (data.data?.token) {
+      localStorage.setItem('authToken', data.data.token);
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error('Login Error:', error);
+    throw new Error(error.message || 'Error de conexión con el servidor');
+  }
 }
 
 /**
  * Obtiene el perfil del usuario autenticado
  */
-export async function getProfile(): Promise<ProfileResponse> {
+export async function getProfile() {
   const token = getToken();
 
   if (!token) {
-    throw new Error("No hay token de autenticación");
+    throw new Error('No hay token de autenticación');
   }
 
-  const response = await fetch(`${API_URL}/api/users/profile`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await fetch(`${API_URL}/api/users/profile`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  if (!response.ok) {
-    const error: ErrorResponse = await response.json();
+    const data = await response.json();
 
-    // Si el token expiró, limpiar localStorage
-    if (
-      error.message.includes("expirado") ||
-      error.message.includes("inválido")
-    ) {
-      logout();
+    if (!response.ok) {
+      if (response.status === 401) {
+        logout();
+      }
+      throw new Error(data.message || 'Error al obtener perfil');
     }
 
-    throw new Error(error.message || "Error al obtener perfil");
+    return data;
+  } catch (error: any) {
+    console.error('Get Profile Error:', error);
+    throw error;
   }
-
-  return await response.json();
 }
 
 /**
  * Obtiene el token almacenado
  */
 export function getToken(): string | null {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("authToken");
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('authToken');
   }
   return null;
 }
@@ -154,9 +138,9 @@ export function getToken(): string | null {
 /**
  * Obtiene el usuario almacenado
  */
-export function getUser(): User | null {
-  if (typeof window !== "undefined") {
-    const user = localStorage.getItem("user");
+export function getUser() {
+  if (typeof window !== 'undefined') {
+    const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   }
   return null;
@@ -172,18 +156,10 @@ export function isAuthenticated(): boolean {
 /**
  * Cierra sesión (elimina el token)
  */
-export function logout(): void {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-  }
-}
-
-/**
- * Hook para verificar autenticación y redirigir si es necesario
- */
-export function requireAuth(): void {
-  if (typeof window !== "undefined" && !isAuthenticated()) {
-    window.location.href = "/auth/login";
+export function logout() {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
   }
 }

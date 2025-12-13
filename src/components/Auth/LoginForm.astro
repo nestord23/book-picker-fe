@@ -1,0 +1,265 @@
+---
+---
+
+<form id="loginForm" class="auth-form">
+  <div class="input-group">
+    <label for="email">Email</label>
+    <div class="input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="juan@example.com"
+        required
+        />
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="password">Contraseña</label>
+    <div class="input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Tu contraseña"
+        required
+        />
+    </div>
+  </div>
+
+  <div class="form-options">
+    <label class="remember-me">
+        <input type="checkbox" name="remember" />
+        <span>Recordarme</span>
+    </label>
+    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+  </div>
+
+  <button type="submit" class="btn-primary">
+    <span>Iniciar Sesión</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+  </button>
+
+  <div id="message" class="message"></div>
+
+  <p class="auth-footer">
+    ¿No tienes cuenta? <a href="/registro" class="link">Regístrate aquí</a>
+  </p>
+</form>
+
+<script>
+  import { login } from '../../lib/auth';
+
+  const form = document.getElementById('loginForm') as HTMLFormElement;
+  const messageDiv = document.getElementById('message') as HTMLDivElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+
+        try {
+        messageDiv.innerHTML = '<span class="loading">Iniciando sesión...</span>';
+        messageDiv.className = 'message info';
+
+        const result = await login({ email, password });
+
+        messageDiv.className = 'message success';
+        messageDiv.innerHTML = result.message || 'Login exitoso';
+
+        setTimeout(() => {
+            window.location.href = '/dashboard';
+        }, 1500);
+        } catch (error: any) {
+        messageDiv.className = 'message error';
+        messageDiv.innerHTML = error.message || 'Error en el login';
+        }
+    });
+  }
+</script>
+
+<style>
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-left: 0.25rem;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    position: absolute;
+    left: 1rem;
+    color: #94a3b8;
+    transition: color 0.3s ease;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input::placeholder {
+    color: #64748b;
+  }
+
+  input:focus {
+    border-color: #8b5cf6;
+    background: rgba(30, 41, 59, 0.8);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+
+  input:focus + .icon, .input-wrapper:focus-within .icon {
+    color: #8b5cf6;
+  }
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+  }
+
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  .remember-me input {
+    accent-color: #8b5cf6;
+    width: 16px;
+    height: 16px;
+  }
+
+  .forgot-password {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .forgot-password:hover {
+    color: #cbd5e1;
+  }
+
+  .btn-primary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem;
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2), 0 2px 4px -1px rgba(99, 102, 241, 0.1);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3), 0 4px 6px -2px rgba(99, 102, 241, 0.1);
+    filter: brightness(1.1);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .arrow-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  .message {
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .message:empty {
+    display: none;
+  }
+
+  .message.info {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .message.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  .message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .auth-footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  .link {
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .link:hover {
+    color: #c4b5fd;
+    text-decoration: underline;
+  }
+</style>
